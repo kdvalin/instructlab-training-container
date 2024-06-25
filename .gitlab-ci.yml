@@ -11,5 +11,6 @@ build_cuda:
   before_script:
     - docker login -u=$QUAY_UNAME -p=$QUAY_PASSWD quay.io
   script:
-    - docker build -t $IMAGE_NAME -f Containerfile.cuda .
-    - docker push $IMAGE_NAME
+    - export TRAINING_VERSION=$(cat ilab-version.txt)
+    - docker build --build-arg="ILAB_VERSION=${TRAINING_VERSION}" -t ${IMAGE_NAME}:${TRAINING_VERSION}-cuda -f Containerfile.cuda .
+    - docker push $IMAGE_NAME:$TRAINING_VERSION-cuda
