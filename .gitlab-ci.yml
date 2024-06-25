@@ -1,0 +1,5 @@
+build_cuda:
+  image: docker
+  stage: build
+  script:
+    - docker build -t example -f Containerfile.cuda .
