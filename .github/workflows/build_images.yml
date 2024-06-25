@@ -15,5 +15,5 @@ jobs:
         with:
           push: false
           tags: kdvalin/project:latest
-          file: ./Dockerfile.cuda
+          file: ./Containerfile.cuda
         
