@@ -1,6 +1,8 @@
 build_cuda:
   image: docker:cli
   stage: build
+  tags: #Need more space
+    - saas-linux-medium-amd64
   services:
     - docker:dind
   script:
