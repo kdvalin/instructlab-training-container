@@ -14,3 +14,18 @@ build_cuda:
     - export TRAINING_VERSION=$(cat ilab-version.txt)
     - docker build --build-arg="ILAB_VERSION=${TRAINING_VERSION}" -t ${IMAGE_NAME}:${TRAINING_VERSION}-cuda -f Containerfile.cuda .
     - docker push $IMAGE_NAME:$TRAINING_VERSION-cuda
+
+build:
+  image: docker:cli
+  stage: build
+  tags: #Need more space
+    - saas-linux-medium-amd64
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u=$QUAY_UNAME -p=$QUAY_PASSWD quay.io
+  script:
+    - export TRAINING_VERSION=$(cat ilab-version.txt)
+    - docker pull ${IMAGE_NAME}:${TRAINING_VERSION} || echo 
+    - docker build --build-arg="ILAB_VERSION=${TRAINING_VERSION}" -t ${IMAGE_NAME}:${TRAINING_VERSION}-torch -t ${IMAGE_NAME}:${TRAINING_VERSION} -t ${IMAGE_NAME}:latest -f Containerfile .
+    - docker push $IMAGE_NAME:$TRAINING_VERSION-torch $IMAGE_NAME:$TRAINING_VERSION $IMAGE_NAME:latest
