@@ -1,5 +1,5 @@
 build_cuda:
-  image: docker
+  image: mgoltzsche/podman
   stage: build
   script:
-    - docker build -t example -f Containerfile.cuda .
+    - podman build -t example -f Containerfile.cuda .
