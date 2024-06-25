@@ -1,3 +1,6 @@
+variables:
+  IMAGE_NAME: quay.io/kvalin/instructlab-training
+
 build_cuda:
   image: docker:cli
   stage: build
@@ -5,5 +8,8 @@ build_cuda:
     - saas-linux-medium-amd64
   services:
     - docker:dind
+  before_script:
+    - docker login -u=$QUAY_UNAME -p=$QUAY_PASSWD quay.io
   script:
-    - docker build -t example -f Containerfile.cuda .
+    - docker build -t $IMAGE_NAME -f Containerfile.cuda .
+    - docker push $IMAGE_NAME
