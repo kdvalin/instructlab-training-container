@@ -29,6 +29,9 @@ jobs:
       uses: actions/checkout@v3
 
     - run: echo "TRAINING_VERSION=$(< ilab-version.txt)" >> $GITHUB_ENV
+    
+    - run: echo "TRAINING_PKG=$(if $GITHUB_REF == "main" && echo 'git+https://github.com/instructlab/training.git' || echo 'instructlab-training==${{env.TRAINING_VERSION}}')" >> $GITHUB_ENV
+    - run: echo ${{ env.TRAINING_PKG }}
 
     - uses: docker/setup-buildx-action@v3
 
@@ -43,9 +46,10 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         cache-from: type=gha
-        cache-to: type=gha,mode=max
+        cache-to: type=gha,mode=min
         tags: quay.io/kvalin/instructlab-training:${{env.TRAINING_VERSION}}-cuda
         file: Containerfile.cuda
+        build-args: 'TRAINING_PACKAGE=${{env.TRAINING_PKG}}'
         push: true
         context: .
 
