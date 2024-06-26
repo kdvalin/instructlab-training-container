@@ -1,6 +1,12 @@
 variables:
   IMAGE_NAME: quay.io/kvalin/instructlab-training
 
+.login:
+  before_script:
+    - docker login -u=$QUAY_UNAME -p=$QUAY_PASSWD quay.io
+  rules:
+    - if: $CI_COMMIT_BRANCH == main || $CI_COMMIT_BRANCH =~ /v*\.*\.*""
+
 build_cuda:
   image: docker:cli
   stage: build
@@ -8,11 +14,17 @@ build_cuda:
     - saas-linux-medium-amd64
   services:
     - docker:dind
-  before_script:
-    - docker login -u=$QUAY_UNAME -p=$QUAY_PASSWD quay.io
   script:
     - export TRAINING_VERSION=$(cat ilab-version.txt)
     - docker build --build-arg="ILAB_VERSION=${TRAINING_VERSION}" -t ${IMAGE_NAME}:${TRAINING_VERSION}-cuda -f Containerfile.cuda .
+
+publish_cuda:
+  image: docker:cli
+  extends: .login
+  stage: publish
+  needs:
+    - build_cuda
+  script:
     - docker push $IMAGE_NAME:$TRAINING_VERSION-cuda
 
 build:
@@ -26,6 +38,5 @@ build:
     - docker login -u=$QUAY_UNAME -p=$QUAY_PASSWD quay.io
   script:
     - export TRAINING_VERSION=$(cat ilab-version.txt)
-    - docker pull ${IMAGE_NAME}:${TRAINING_VERSION} || echo 
     - docker build --build-arg="ILAB_VERSION=${TRAINING_VERSION}" -t ${IMAGE_NAME}:${TRAINING_VERSION}-torch -t ${IMAGE_NAME}:${TRAINING_VERSION} -t ${IMAGE_NAME}:latest -f Containerfile .
     - docker push $IMAGE_NAME:$TRAINING_VERSION-torch $IMAGE_NAME:$TRAINING_VERSION $IMAGE_NAME:latest
