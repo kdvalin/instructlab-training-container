@@ -26,6 +26,10 @@ publish_cuda:
   stage: deploy
   needs:
     - build_cuda
+  services:
+    - docker:dind
+  tags: #Need more space
+    - saas-linux-medium-amd64
   script:
     - export TRAINING_VERSION=$(cat ilab-version.txt)
     - docker push $IMAGE_NAME:$TRAINING_VERSION-cuda
