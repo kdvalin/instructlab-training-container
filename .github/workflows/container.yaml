@@ -23,3 +23,7 @@ jobs:
         docker build -t test:$(< ilab-version.txt)
         --build-arg="TRAINING_VERSION=$(< ilab_version.txt)"
         -f Containerfile .
+      continue-on-error: true
+    
+    - name: Show disk space
+      run: df -h && false
