@@ -9,7 +9,7 @@ WORKDIR /training
 COPY ./entrypoint.py .
 RUN mkdir -p /new_data/experiments/training_output
 
-ARG TRAINING_VERSION="git+https://github.com/instructlab/training.git"
+ARG TRAINING_PACKAGE="git+https://github.com/instructlab/training.git"
 RUN python3.11 -m pip install ${TRAINING_PACKAGE}
 
 ENTRYPOINT [ "python3.11", "entrypoint.py" ]
