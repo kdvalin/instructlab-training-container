@@ -4,18 +4,18 @@ import argparse
 
 parser = argparse.ArgumentParser()
 #Required
-parser.add_argument("model", type=str, required=True, help="Path to the model used for training")
-parser.add_argument("data-path", type=str, required=True, help="Path to training data")
+parser.add_argument("--model", required=True, type=str, help="Path to the model used for training")
+parser.add_argument("--data-path", required=True, type=str, help="Path to training data")
 
 #Optional/provided defaults
-parser.add_argument("nnodes", default=1, type=int, help="Number of nodes used for training")
-parser.add_argument("nproc-per-node", default=1, type=int, help="Number of GPUs per node")
-parser.add_argument("ckpt-output-dir", type=str, default="/tmp", help="Path to output model checkpoints")
-parser.add_argument("num-epochs", type=int, default=1, help="Number of iterations over the training dataset")
-parser.add_argument("dolomite", type=bool, default=False, action='store_true', help="Set if the model is in dolomite format, by enabling `is_padding_free`")
-parser.add_argument("effective-batch-size", type=int, default=64, help="Batch size scaling factor")
-parser.add_argument("max-batch-len", type=int, default=60000, help="Maximum length of a batch")
-parser.add_argument("data-output-dir", type=str, default="/dev/shm", help="Directory to output preprocessed data")
+parser.add_argument("--nnodes", default=1, type=int, help="Number of nodes used for training")
+parser.add_argument("--nproc-per-node", default=1, type=int, help="Number of GPUs per node")
+parser.add_argument("--ckpt-output-dir", type=str, default="/tmp", help="Path to output model checkpoints")
+parser.add_argument("--num-epochs", type=int, default=1, help="Number of iterations over the training dataset")
+parser.add_argument("--dolomite", action='store_true', help="Set if the model is in dolomite format, by enabling `is_padding_free`")
+parser.add_argument("--effective-batch-size", type=int, default=64, help="Batch size scaling factor")
+parser.add_argument("--max-batch-len", type=int, default=60000, help="Maximum length of a batch")
+parser.add_argument("--data-output-dir", type=str, default="/dev/shm", help="Directory to output preprocessed data")
 
 args = parser.parse_args()
 
