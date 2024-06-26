@@ -45,5 +45,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         tags: quay.io/kvalin/instructlab-training:${{env.TRAINING_VERSION}}
+        file: Containerfile
+        push: true
         context: .
 
