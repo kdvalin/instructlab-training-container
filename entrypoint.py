@@ -2,10 +2,10 @@ from instructlab.training.main_ds import run_training
 from instructlab.training.config import TorchrunArgs, TrainingArgs, DeepSpeedOptions
 import argparse
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 #Required
-parser.add_argument("--model", required=True, type=str, help="Path to the model used for training")
-parser.add_argument("--data-path", required=True, type=str, help="Path to training data")
+parser.add_argument("--model", default=argparse.SUPPRESS, required=True, type=str, help="Path to the model used for training")
+parser.add_argument("--data-path", default=argparse.SUPPRESS, required=True, type=str, help="Path to training data")
 
 #Optional/provided defaults
 parser.add_argument("--nnodes", default=1, type=int, help="Number of nodes used for training")
