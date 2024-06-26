@@ -5,7 +5,9 @@ variables:
   before_script:
     - docker login -u=$QUAY_UNAME -p=$QUAY_PASSWD quay.io
   rules:
-    - if: $CI_COMMIT_BRANCH == main || $CI_COMMIT_BRANCH =~ /v*\.*\.*""
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH =~ /^v/
+    - when: never
 
 build_cuda:
   image: docker:cli
@@ -21,13 +23,13 @@ build_cuda:
 publish_cuda:
   image: docker:cli
   extends: .login
-  stage: publish
+  stage: deploy
   needs:
     - build_cuda
   script:
     - docker push $IMAGE_NAME:$TRAINING_VERSION-cuda
 
-build:
+.build: #Disable due to lack of disk space
   image: docker:cli
   stage: build
   tags: #Need more space
