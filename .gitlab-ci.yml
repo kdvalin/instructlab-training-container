@@ -27,6 +27,7 @@ publish_cuda:
   needs:
     - build_cuda
   script:
+    - export TRAINING_VERSION=$(cat ilab-version.txt)
     - docker push $IMAGE_NAME:$TRAINING_VERSION-cuda
 
 .build: #Disable due to lack of disk space
