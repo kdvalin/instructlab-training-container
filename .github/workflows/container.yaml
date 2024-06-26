@@ -21,4 +21,5 @@ jobs:
     - name: Build CUDA container
       run: >
         docker build -t test:$(< ilab-version.txt)
-        --build-arg="TRAINING_VERSION=$(< ilab_version.txt)" .
+        --build-arg="TRAINING_VERSION=$(< ilab_version.txt)"
+        -f Containerfile .
