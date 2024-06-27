@@ -45,7 +45,7 @@ run_training(
                 is_padding_free = args.dolomite,
                 random_seed = 42,
 				deepspeed_options = DeepSpeedOptions(
-					cpu_offload_optimizer = args.cpu_offload_optimzier,
+					cpu_offload_optimizer = args.cpu_offload_optimizer,
 					cpu_offload_optimizer_pin_memory = args.cpu_offload_pin_memory,
 					cpu_offload_optimizer_ratio = args.cpu_offload_optimizer_ratio,
 				),
