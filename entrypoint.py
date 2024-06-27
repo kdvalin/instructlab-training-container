@@ -16,6 +16,9 @@ parser.add_argument("--dolomite", action='store_true', help="Set if the model is
 parser.add_argument("--effective-batch-size", type=int, default=64, help="Batch size scaling factor")
 parser.add_argument("--max-batch-len", type=int, default=60000, help="Maximum length of a batch")
 parser.add_argument("--data-output-dir", type=str, default="/dev/shm", help="Directory to output preprocessed data")
+parser.add_argument("--cpu-offload-optimizer", action="store_true", help="Enable offloading the optimizer to the host")
+parser.add_argument("--cpu-offload-pin-memory", action="store_true", help="Enable Memory Pinning for CPU offloading")
+parser.add_argument("--cpu-offload-optimizer-ratio", default=1, type=float, help="Adjust the ratio of parameters updating (i.e. optimizer step) on CPU side")
 
 args = parser.parse_args()
 
@@ -41,5 +44,10 @@ run_training(
                 warmup_steps = 385,
                 is_padding_free = args.dolomite,
                 random_seed = 42,
+				deepspeed_options = DeepSpeedOptions(
+					cpu_offload_optimizer = args.cpu_offload_optimzier,
+					cpu_offload_optimizer_pin_memory = args.cpu_offload_pin_memory,
+					cpu_offload_optimizer_ratio = args.cpu_offload_optimizer_ratio,
+				),
         ),
 )
