@@ -3,7 +3,8 @@ FROM nvidia/cuda:12.1.1-cudnn8-devel-ubi9
 RUN dnf install -y python3.11 python3.11-devel git libnccl
 RUN python3.11 -m ensurepip --upgrade
 RUN python3.11 -m pip install torch==2.3.0 --index-url https://download.pytorch.org/whl/cu121
-RUN python3.11 -m pip install packaging wheel ninja flash_attn
+RUN python3.11 -m pip install packaging wheel ninja 
+RUN python3.11 -m pip install flash_attn
 
 WORKDIR /training
 COPY ./entrypoint.py .
