@@ -1,0 +1,14 @@
+FROM quay.io/fabiendupont/instructlab:latest
+
+ENV PATH="/opt/python3.11/venv/bin:$PATH"
+
+RUN python3.11 -m ensurepip --upgrade
+RUN dnf install -y ninja-build
+RUN python3.11 -m pip install flash_attn
+
+COPY ./entrypoint.py .
+
+ARG TRAINING_PACKAGE="git+https://github.com/instructlab/training.git"
+RUN python3 -m pip install ${TRAINING_PACKAGE}
+
+ENTRYPOINT [ "python3", "entrypoint.py" ]
