@@ -40,7 +40,7 @@ run_training(
                 max_batch_len = args.max_batch_len,
                 num_epochs = args.num_epochs,
                 effective_batch_size = args.effective_batch_size,
-                save_samples = 74999,
+                save_samples = args.save_samples,
                 learning_rate = 2e-5,
                 warmup_steps = 385,
                 is_padding_free = args.dolomite,
