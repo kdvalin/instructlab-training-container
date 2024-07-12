@@ -19,6 +19,7 @@ parser.add_argument("--data-output-dir", type=str, default="/dev/shm", help="Dir
 parser.add_argument("--cpu-offload-optimizer", action="store_true", help="Enable offloading the optimizer to the host")
 parser.add_argument("--cpu-offload-pin-memory", action="store_true", help="Enable Memory Pinning for CPU offloading")
 parser.add_argument("--cpu-offload-optimizer-ratio", default=1, type=float, help="Adjust the ratio of parameters updating (i.e. optimizer step) on CPU side")
+parser.add_argument("--save-samples", default=74999, type=int, help="Number of samples to process before saving a checkpoint, default is intentionally high to prevent checkpoint saving")
 
 args = parser.parse_args()
 
