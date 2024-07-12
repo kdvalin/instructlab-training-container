@@ -19,6 +19,7 @@ parser.add_argument("--data-output-dir", type=str, default="/dev/shm", help="Dir
 parser.add_argument("--cpu-offload-optimizer", action="store_true", help="Enable offloading the optimizer to the host")
 parser.add_argument("--cpu-offload-pin-memory", action="store_true", help="Enable Memory Pinning for CPU offloading")
 parser.add_argument("--cpu-offload-optimizer-ratio", default=1, type=float, help="Adjust the ratio of parameters updating (i.e. optimizer step) on CPU side")
+parser.add_argument("--save-samples", default=74999, type=int, help="Number of samples to process before saving a checkpoint, default is intentionally high to prevent checkpoint saving")
 
 args = parser.parse_args()
 
@@ -39,7 +40,7 @@ run_training(
                 max_batch_len = args.max_batch_len,
                 num_epochs = args.num_epochs,
                 effective_batch_size = args.effective_batch_size,
-                save_samples = 74999,
+                save_samples = args.save_samples,
                 learning_rate = 2e-5,
                 warmup_steps = 385,
                 is_padding_free = args.dolomite,
